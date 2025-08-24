@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login — Brownie Bite</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <main class="container" style="margin-top:32px;max-width:480px">
+    <div class="card">
+      <div class="brand" style="text-align:center;margin-bottom:6px">Brownie Bite</div>
+      <h2>Admin Login</h2>
+      <form id="loginForm">
+        <label>Username</label>
+        <input id="u" required placeholder="Username"/>
+        <label>Pin</label>
+        <input id="p" required type="password" placeholder="Pin"/>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn" type="submit">Login</button>
+          <a class="btn ghost" href="index.html">Back</a>
+        </div>
+      </form>
+      <p class="small" style="margin-top:8px">Use the credentials we set together.</p>
+    </div>
+  </main>
+  <script>
+    const USER="BROWNIE BITES";
+    const PIN="BROWNIEbites@463235_6432";
+    document.getElementById('loginForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const u = document.getElementById('u').value.trim();
+      const p = document.getElementById('p').value;
+      if(u===USER && p===PIN){
+        sessionStorage.setItem('adminLoggedIn','true');
+        location.href="admin.html";
+      }else{
+        alert("Invalid credentials");
+      }
+    });
+  </script>
+</body>
+</html>
