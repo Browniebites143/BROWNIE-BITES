@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Thank you — Brownie Bite</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="brand">Brownie Bite</div>
+        <div class="tag">Freshly baked • Homemade with love • Delivered to your door</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Thank you! 🎉</h1>
+      <p>Your order has been placed successfully.</p>
+      <p><b>Order ID:</b> <span id="orderId"></span></p>
+      <p class="small">Use this ID in “Track Your Order” on the homepage to see live status.</p>
+      <div class="actions">
+        <a class="btn" href="index.html">Back to Home</a>
+      </div>
+    </section>
+  </main>
+  <footer>© 2025 Brownie Bite</footer>
+
+  <script>
+    const url = new URL(location.href);
+    const id = url.searchParams.get('id') || '—';
+    document.getElementById('orderId').textContent = id;
+  </script>
+</body>
+</html>

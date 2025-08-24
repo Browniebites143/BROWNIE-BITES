@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin — Brownie Bite</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script defer src="firebaseConfig.js"></script>
+  <script defer src="admin.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="brand">Brownie Bite</div>
+        <div class="tag">Admin dashboard</div>
+      </div>
+      <div class="actions">
+        <a class="btn-secondary" href="index.html">Site</a>
+        <button id="logoutBtn" class="btn-danger">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Orders</h1>
+      <table class="table" id="ordersTable">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Placed At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h1>Menu Editor</h1>
+      <div class="row">
+        <div><label>Name</label><input id="mName"></div>
+        <div><label>Price (₹)</label><input id="mPrice" type="number" min="1"></div>
+        <div><label>Image URL (optional)</label><input id="mImg"></div>
+      </div>
+      <div class="actions" style="margin-top:10px">
+        <button id="addItem" class="btn">Add / Update Item</button>
+        <button id="resetMenu" class="btn-secondary">Reset to Default</button>
+      </div>
+      <p class="small">Items are stored under <code>/menu</code> in Realtime Database.</p>
+    </section>
+  </main>
+
+</body>
+</html>

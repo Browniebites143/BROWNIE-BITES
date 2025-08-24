@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin Login — Brownie Bite</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script defer src="firebaseConfig.js"></script>
+</head>
+<body>
+  <main class="container" style="max-width:480px">
+    <section class="card">
+      <h1>Admin Login</h1>
+      <form id="loginForm">
+        <label>Username</label>
+        <input id="user" placeholder="Enter username" required/>
+        <label>PIN / Password</label>
+        <input id="pin" type="password" placeholder="Enter PIN" required/>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn" type="submit">Login</button>
+        </div>
+        <p class="small">Only for authorized staff.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Hard-coded admin creds as requested
+    const ADMIN_USER = "BROWNIE BITES";
+    const ADMIN_PIN  = "BROWNIEbites@463235_6432";
+
+    document.getElementById('loginForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const u = document.getElementById('user').value.trim();
+      const p = document.getElementById('pin').value.trim();
+      if(u===ADMIN_USER && p===ADMIN_PIN){
+        sessionStorage.setItem('adminLoggedIn','true');
+        location.href = 'admin.html';
+      }else{
+        alert('Invalid credentials');
+      }
+    });
+  </script>
+</body>
+</html>
