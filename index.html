@@ -1,130 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Brownie Bite — Order Online</title>
-  <link rel="stylesheet" href="style.css"/>
-  <!-- Ravie is not web-safe; we approximate with fallback + allow local Ravie if installed -->
-  <style>@font-face{font-family:'Ravie';src:local('Ravie');font-display:swap}</style>
-  <!-- Firebase v8 -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brownie Bites - Order</title>
+  <link rel="stylesheet" href="style.css">
   <script src="firebaseConfig.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
 </head>
 <body>
   <header>
-    <div class="container" style="padding:0">
-      <div class="brand">Brownie Bite</div>
-      <div class="tag">Freshly baked • Homemade with love • Delivered to your door</div>
-    </div>
+    <h1 style="font-family: Ravie; text-align:center;">🍫 Brownie Bites</h1>
+    <p style="text-align:center;">Freshly Baked Happiness</p>
   </header>
 
-  <main class="container">
-    <section class="card">
-      <h2>Place Your Order</h2>
-      <form id="orderForm">
-        <div class="row">
-          <div>
-            <label for="name">Name *</label>
-            <input id="name" required />
-          </div>
-          <div>
-            <label for="phone">Phone *</label>
-            <input id="phone" inputmode="tel" pattern="[0-9+\-() ]{7,}" required />
-          </div>
-        </div>
+  <main>
+    <h2>Place Your Order</h2>
+    <form id="orderForm">
+      <label>Name:</label>
+      <input type="text" id="name" required><br><br>
 
-        <label for="address">Address *</label>
-        <textarea id="address" required></textarea>
+      <label>Phone:</label>
+      <input type="text" id="phone" required><br><br>
 
-        <label for="email">Email (optional)</label>
-        <input id="email" type="email" placeholder="name@example.com" />
+      <label>Brownie Quantity:</label>
+      <input type="number" id="quantity" min="1" required><br><br>
 
-        <div class="row">
-          <div>
-            <label for="product">Product *</label>
-            <select id="product" required>
-              <option value="Classic" data-price="40">Classic Brownie — ₹40</option>
-              <option value="Walnut" data-price="50">Walnut Brownie — ₹50</option>
-              <option value="Oreo" data-price="50">Oreo Brownie — ₹50</option>
-              <option value="ChocoChip" data-price="50">Choco-chip Brownie — ₹50</option>
-            </select>
-          </div>
-          <div>
-            <label for="qty">Quantity *</label>
-            <input id="qty" type="number" min="1" value="1" required />
-          </div>
-        </div>
+      <label>Payment Method:</label>
+      <select id="paymentMethod" required>
+        <option value="cod">Cash on Delivery</option>
+        <option value="gpay">Google Pay</option>
+        <option value="phonepe">PhonePe</option>
+        <option value="paytm">Paytm</option>
+        <option value="fampay">FamPay</option>
+        <option value="bhim">BHIM UPI</option>
+      </select><br><br>
 
-        <p class="price-line">Total: <span id="totalAmt">₹40</span></p>
-        <p class="small">Pricing auto-updates when you change product or quantity.</p>
+      <button type="submit">Proceed</button>
+    </form>
 
-        <hr class="soft" style="margin:10px 0 14px;border:0;border-top:1px solid #2a2c39"/>
-
-        <label>Payment Method *</label>
-        <div class="row">
-          <label><input type="radio" name="pay" value="COD" checked /> Cash on Delivery (COD)</label>
-          <label><input type="radio" name="pay" value="UPI" /> UPI (GPay/PhonePe/BHIM/FamPay/Paytm)</label>
-        </div>
-
-        <div id="upiChooser" class="card" style="margin-top:10px; display:none; padding:12px">
-          <h3>Select your UPI app</h3>
-          <div class="actions">
-            <button type="button" class="btn-secondary" data-upiapp="gpay">Google Pay</button>
-            <button type="button" class="btn-secondary" data-upiapp="phonepe">PhonePe</button>
-            <button type="button" class="btn-secondary" data-upiapp="paytm">Paytm</button>
-            <button type="button" class="btn-secondary" data-upiapp="bhim">BHIM</button>
-            <button type="button" class="btn-secondary" data-upiapp="fampay">FamPay</button>
-            <button type="button" class="btn-secondary" data-upiapp="generic">Other UPI</button>
-          </div>
-          <p class="small">Your amount and Order ID will be filled in the payment note (where supported).</p>
-        </div>
-
-        <div class="actions" style="margin-top:12px">
-          <button type="submit" class="btn">🍫 Place Order</button>
-        </div>
-      </form>
-    </section>
-
-    <section class="card" style="margin-top:18px">
-      <h2>Track Your Order</h2>
-      <div class="row">
-        <input id="trackId" placeholder="Enter Order ID e.g. BB-20250101-1234"/>
-        <button class="btn btn-secondary" id="trackBtn">Check Status</button>
-      </div>
-      <p id="trackResult" class="price-line"></p>
-    </section>
+    <!-- iOS fallback section -->
+    <div id="iosFallback" style="display:none; margin-top:20px; text-align:center;">
+      <h3>Scan & Pay</h3>
+      <canvas id="qrCanvas"></canvas>
+      <p>Or copy UPI ID: <b id="upiText">9380248566@fam</b></p>
+      <button onclick="copyUPI()">Copy UPI ID</button>
+    </div>
   </main>
 
-  <footer>
-    © 2025 Brownie Bite • Happiness in every bite
-  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+  <script>
+    const form = document.getElementById("orderForm");
+    const iosFallback = document.getElementById("iosFallback");
+    const qrCanvas = document.getElementById("qrCanvas");
+    const upiId = "9380248566@fam";
+    const receiver = "Brownie Bites";
 
-  <!-- Thank You Modal -->
-  <div id="thanksModal">
-    <div class="modal-card">
-      <h3>Thank you! 🎉</h3>
-      <p>Your order has been placed.</p>
-      <p><b>Order ID:</b> <span id="popOrderId"></span></p>
-      <p class="small">Use this ID in <b>Track Your Order</b> to see live status.</p>
-      <div id="postOrderUPI" style="display:none">
-        <p class="small">Tap your app to pay now:</p>
-        <div class="actions">
-          <a id="goGPay" class="btn btn-secondary" target="_blank" rel="noopener">Google Pay</a>
-          <a id="goPhonePe" class="btn btn-secondary" target="_blank" rel="noopener">PhonePe</a>
-          <a id="goPaytm" class="btn btn-secondary" target="_blank" rel="noopener">Paytm</a>
-          <a id="goBHIM" class="btn btn-secondary" target="_blank" rel="noopener">BHIM</a>
-          <a id="goFamPay" class="btn btn-secondary" target="_blank" rel="noopener">FamPay</a>
-          <a id="goGeneric" class="btn btn-secondary" target="_blank" rel="noopener">Other UPI</a>
-        </div>
-      </div>
-      <div class="actions" style="margin-top:12px">
-        <a class="btn" id="closeModal">OK</a>
-      </div>
-    </div>
-  </div>
+    function generateOrderId() {
+      return "BB-" + Math.floor(Math.random() * 1000000);
+    }
 
-  <script src="script.js"></script>
+    function copyUPI() {
+      navigator.clipboard.writeText(upiId);
+      alert("UPI ID copied: " + upiId);
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const paymentMethod = document.getElementById("paymentMethod").value;
+      const amount = quantity * 50; // price per brownie = 50
+
+      const orderId = generateOrderId();
+      alert("Your Order ID: " + orderId);
+
+      // Save order to Firebase
+      const db = firebase.database();
+      db.ref("orders").push({
+        name, phone, quantity, paymentMethod, amount,
+        orderId, status: "Pending", paymentStatus: "Unpaid",
+        time: new Date().toLocaleString()
+      });
+
+      if (paymentMethod === "cod") {
+        window.location.href = "thankyou.html?orderId=" + orderId;
+        return;
+      }
+
+      // UPI deep link
+      const upiUrl = `upi://pay?pa=${upiId}&pn=${receiver}&am=${amount}&cu=INR&tn=${orderId}`;
+
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // iOS fallback → show QR & copy option
+        iosFallback.style.display = "block";
+        const qr = new QRious({
+          element: qrCanvas,
+          value: upiUrl,
+          size: 200
+        });
+      } else {
+        // Try direct open for Android
+        window.location.href = upiUrl;
+        setTimeout(() => {
+          window.location.href = "thankyou.html?orderId=" + orderId;
+        }, 4000);
+      }
+    });
+  </script>
 </body>
 </html>
