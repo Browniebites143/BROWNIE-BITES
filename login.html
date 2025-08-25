@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin Login — Brownie Bite</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header><div class="container brand"><div class="title">Brownie Bite</div><div class="tag">admin access</div></div></header>
+  <main class="container">
+    <div class="card" style="max-width:420px;margin:auto">
+      <h2>Admin Login</h2>
+      <div class="row"><input id="user" placeholder="Username"></div>
+      <div class="row"><input id="pin" placeholder="Pin" type="password"></div>
+      <button class="btn" id="loginBtn">Login</button>
+      <p class="small">Hint: set in admin.js</p>
+    </div>
+  </main>
+  <script>
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const u = document.getElementById('user').value.trim();
+      const p = document.getElementById('pin').value.trim();
+      const U = 'BROWNIE BITES';
+      const P = 'BROWNIEbites@463235_6432';
+      if (u === U && p === P) {
+        sessionStorage.setItem('adminLoggedIn','1');
+        location.href = 'admin.html';
+      } else {
+        alert('Invalid credentials');
+      }
+    });
+  </script>
+</body>
+</html>
