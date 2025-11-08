@@ -1,0 +1,20 @@
+{
+    "name": "browniebites/webapp",
+    "description": "BrownieBites - A modern PHP + Tailwind web app for brownie lovers.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "BrownieBites Team",
+            "email": "support@browniebites.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "BrownieBites\\": "src/"
+        }
+    }
+}
